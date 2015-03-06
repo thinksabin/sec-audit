@@ -1,15 +1,17 @@
-from conf_loader import ids_init
+
+import os
+import subprocess
+import default_values
+from conf_loader import ossec_init
 from third_party import xmltodict
 
-__author__ = 'sabin'
-import subprocess, os
 from conf_loader.server_auditor_conf import conf
 
 #conf = serverAuditor_confLoader.load_config('serverAuditor.conf')
 
 ## ossec standards
-ossec_init_conf = conf.get("ossec-ids.ossec_init_conf")
-ossec_version = conf.get("ossec-ids.ossec_version")
+# ossec_init_conf = conf.get("ossec-ids.ossec_init_conf")
+# ossec_version = conf.get("ossec-ids.ossec_version")
 ossec_type_agent = conf.get("ossec-ids.ossec_type_agent")
 ossec_type_server = conf.get("ossec-ids.ossec_type_server")
 ossec_error = conf.get("ossec-ids.ossec_error")
@@ -24,20 +26,20 @@ warning = " .......................................[WARNING]"
 # loading the ids_confLoader and getting the ids_type and ids_version from the /etc/ossec-init.conf
 def check_ids_type():
 
-    ids_type = ids_init.load_conf(ossec_init_conf).get('TYPE')
+    ids_type = ossec_init.load_conf(default_values.OSSEC_INIT_CONF).get('TYPE')
     ids_type = ids_type[1:-1]
     print ("checking ids_type value " + ids_type)
     return ids_type
 
 def check_ids_version():
 
-    ids_version = ids_init.load_conf(ossec_init_conf).get('VERSION')
+    ids_version = ossec_init.load_conf(default_values.OSSEC_INIT_CONF).get('VERSION')
     ids_version = ids_version[1:-1]
     print ("checking ids_version value " + ids_version)
     return ids_version
 
 def check_ids_directory():
-    ids_directory = ids_init.load_conf(ossec_init_conf).get('DIRECTORY')
+    ids_directory = ossec_init.load_conf(default_values.OSSEC_INIT_CONF).get('DIRECTORY')
     ids_directory = ids_directory[1:-1] # removing double quotes from the string
 
     ossec_conf_sub = "/etc/ossec.conf"
@@ -53,13 +55,13 @@ def check_hids():
 
     #checking system for installed OSSEC HIDS
     try:
-        if os.path.exists(ossec_init_conf):
+        if os.path.exists(default_values.OSSEC_INIT_CONF):
             print (" OSSEC HIDS is Installed. Checking Further Settings...")
 
             # opening and reading ossec-init.conf file for versioning and type info
             print ("opening and reading ossec-init.conf file for versioning and type info")
 
-            open_ossec_init_conf_file = open(ossec_init_conf)
+            open_ossec_init_conf_file = open(default_values.OSSEC_INIT_CONF)
             print ("reading ossec_init_conf")
 
             #read_ossec_init_conf_file = open_ossec_init_conf_file.read()
@@ -70,7 +72,7 @@ def check_hids():
 
             #checking ossec version
             #search_ossec_version = read_ossec_init_conf_file.find(os_version)
-            if check_ids_version() == ossec_version:
+            if check_ids_version() == default_values.OSSEC_VERSION:
                 print ("  OSSEC HIDS version is ") + check_ids_version() + "......................" + ok
             else:
                 print("  OSSEC HIDS version installed is ") + check_ids_version() + "......................" + warning

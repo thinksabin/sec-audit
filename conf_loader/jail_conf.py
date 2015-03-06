@@ -28,7 +28,6 @@ def load_config(config_file):
     except IOError as jailconfigloader:
         print (" Error has occur in " + "load_config()" + " " + jailconfigloader.strerror)
 
-
 #conf = load_config('backup.conf.template')
 conf = load_config('sample_conf_files/sample_jail.conf')
 #print "printing conf ", conf

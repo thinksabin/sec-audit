@@ -1,5 +1,6 @@
 __author__ = 'sabin'
 
+import default_values
 from conf_loader import modsecurity_conf
 from conf_loader.server_auditor_conf import conf
 
@@ -8,40 +9,29 @@ from conf_loader.server_auditor_conf import conf
 ok = " .......................................[OK]"
 warning = " .......................................[WARNING]"
 
-#conf = serverAuditor_confLoader.load_config('serverAuditor.conf')
-
-modsecurity_sec_status_engine = conf.get("modsecurity.SecStatusEngine")
-modsecurity_sec_rule_engine_on = conf.get("modsecurity.SecRuleEngine")
-modsecurity_sec_response_body_access = conf.get("modsecurity.SecResponseBodyAccess")
-
-#modsecurity_conf_location    = "sample_modsecurity.conf"
-modsecurity_conf_location = conf.get("modsecurity.conf_location")
-
-
-
 ## checking modsecurity settings. This method should be called only if modsecurity is installed in the system.
 def check_modsecurity():
 
-    status_engine = modsecurity_conf.load_conf(modsecurity_conf_location).get("SecStatusEngine")
-    ruleEngine = modsecurity_conf.load_conf(modsecurity_conf_location).get("SecRuleEngine")
-    response_body_access = modsecurity_conf.load_conf(modsecurity_conf_location).get("SecResponseBodyAccess")
-    audit_log = modsecurity_conf.load_conf(modsecurity_conf_location).get("SecAuditLog")
+    status_engine = modsecurity_conf.load_conf(default_values.MODSECURITY_CONF_lOCATION).get("SecStatusEngine")
+    ruleEngine = modsecurity_conf.load_conf(default_values.MODSECURITY_CONF_lOCATION).get("SecRuleEngine")
+    response_body_access = modsecurity_conf.load_conf(default_values.MODSECURITY_CONF_lOCATION).get("SecResponseBodyAccess")
+    audit_log = modsecurity_conf.load_conf(default_values.MODSECURITY_CONF_lOCATION).get("SecAuditLog")
 
 #print "the value of status  = " + status_engine + " " + ruleEngine + " " + response_body_access + " " + audit_log
     print "checking Apache Modsecurity Firewall Settings "
     print "Reading /etc/modsecurity/modsecurity.conf "
     try:
-        if status_engine == modsecurity_sec_status_engine:
+        if status_engine == default_values.MODSECURITY_SEC_STATUS_ENGINE:
             print " The modsecurity engine status is " + str(status_engine) + ok
         else:
             print " The modsecurity engine status is " + str(status_engine) + warning
 
-        if ruleEngine == modsecurity_sec_rule_engine_on:
+        if ruleEngine == default_values.MODSECURITY_SEC_RULE_ENGINE:
             print " The modsecurity rule engine status is " + str(ruleEngine) + ok
         else:
             print " The modsecurity rule engine status is " + str(ruleEngine) + warning
 
-        if response_body_access == modsecurity_sec_response_body_access:
+        if response_body_access == default_values.MOSECURITY_Sec_RESPONSE_BODY_ACCESS:
             print " The modsecurity response_body_access is " + response_body_access + ok
         else:
             print " The modsecurity response_body_access is " + response_body_access + " This setting might consume more server" \

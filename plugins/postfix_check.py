@@ -1,5 +1,6 @@
 __author__ = 'sabin'
 
+import default_values
 from conf_loader.server_auditor_conf import conf
 from conf_loader import postfix_conf
 
@@ -8,26 +9,18 @@ from conf_loader import postfix_conf
 ok = " .......................................[OK]"
 warning = " .......................................[WARNING]"
 
-#conf = serverAuditor_confLoader.load_config('serverAuditor.conf')
-
-#some standards for postfix
-location_postfix_main = conf.get("postfix.path_postfix_main")
-s_my_network = conf.get("postfix.mynetwork")
-s_smtpd_use_tls = conf.get("postfix.smtpd_use_tls")
-#end of different standards for the postfix
-
-mynetwork = postfix_conf.load_conf(location_postfix_main).get('mynetworks ')
-smtpd_use_tls = postfix_conf.load_conf(location_postfix_main).get('smtpd_use_tls')
+my_network = postfix_conf.load_conf(default_values.POSTFIX_MAIN_LOCATION).get('mynetworks ')
+smtpd_use_tls = postfix_conf.load_conf(default_values.POSTFIX_MAIN_LOCATION).get('smtpd_use_tls')
 
 
 def check_postfix():
     print "Checking Postfix settings from /etc/postfix/main.cf file"
 
-    if s_my_network == mynetwork:
-        print " The postfix allow network is ", s_my_network, ok
+    if default_values.POSTFIX_MY_NETWORK == my_network:
+        print " The postfix allow network is ", my_network, ok
     else:
-        print " The postfix allow network is ", mynetwork, warning
-    if s_smtpd_use_tls == smtpd_use_tls:
+        print " The postfix allow network is ", my_network, warning
+    if default_values.POSTFIX_SMTPD_USE_TLS == smtpd_use_tls:
         print " The postfix smtpd uses TLS ", ok
     else:
         print " The postfix smtpd does not uses TLS ", warning

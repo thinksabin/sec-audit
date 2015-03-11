@@ -2,7 +2,7 @@
 from plugins import jail_check
 from plugins import ossec_ids_check
 from plugins import aws_port_check
-from plugins import module_check
+from plugins import packages_check
 from plugins import os_check
 from plugins import postfix_check
 from plugins import modsecurity_check
@@ -18,7 +18,7 @@ jail_check.run_jail_checker()
 
 print " "
 print " *************** checking modules *************** "
-module_check.run_module_checker()
+packages_check.run_packages_checker()
 
 print " "
 print " *************** checking ports *************** "

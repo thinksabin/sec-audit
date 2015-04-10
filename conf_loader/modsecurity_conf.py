@@ -3,6 +3,7 @@ __author__ = 'sabin'
 import pprint
 
 def load_conf (file_path):
+    #try:
     # Load file content to buffer
     with open(file_path, 'rU') as f:
         content = f.read ()
@@ -14,5 +15,7 @@ def load_conf (file_path):
             position = line.index (' ')
             confs[line[:position]] = line[position + 1:]
     return confs
+    #except IOError as modsecurityconfigloader:
+     #   pass
 
 

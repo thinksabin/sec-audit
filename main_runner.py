@@ -9,34 +9,53 @@ from plugins import modsecurity_check
 
 
 print " "
-print " ***************checking OS *************** "
-os_check.run_os_checker()
+print " *************** Checking OS *************** "
+try:
+	os_check.run_os_checker()
+except:
+	pass
 
 print " "
-print " ***************checking Fail2ban *************** "
-jail_check.run_jail_checker()
+print " *************** Checking modules *************** "
+try:
+	packages_check.run_packages_checker()
+except:
+	pass
 
 print " "
-print " *************** checking modules *************** "
-packages_check.run_packages_checker()
+print " *************** Checking ports *************** "
+try:
+	aws_port_check.run_port_checker()
+except:
+	pass
 
 print " "
-print " *************** checking ports *************** "
-aws_port_check.run_port_checker()
+print " *************** Checking Fail2ban *************** "
+try:
+	jail_check.run_jail_checker()
+except:
+	pass
 
 print " "
-print " *************** checking postfix ***************"
-postfix_check.run_postfix_checker()
+print " *************** Checking postfix ***************"
+try:
+	postfix_check.run_postfix_checker()
+except:
+	pass
 
 print " "
-print " *************** checking ids (OSSEC) ***************"
-ossec_ids_check.run_ids_checker()
-
+print " *************** Checking IDS (OSSEC) ***************"
+try:
+	ossec_ids_check.run_ids_checker()
+except:
+	pass
 
 print " "
-print " *************** checking WAF (Modsecurity) ***************"
-modsecurity_check.run_modsecurity_checker()
-
-
+print " *************** Checking WAF (Modsecurity) ***************"
+try:
+	modsecurity_check.run_modsecurity_checker()
+except :
+	pass 
+	
 print " "
 print "**************End of Testing*************************"

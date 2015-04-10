@@ -21,6 +21,8 @@ ossec_central_server_ip = conf.get("ossec-ids.ossec_central_server_ip")
 
 ok = " .......................................[OK]"
 warning = " .......................................[WARNING]"
+error = " .......................................[NOT INSTALLED]"
+
 #ossec_init_conf = "test_ossec-init.txt"
 
 # loading the ids_confLoader and getting the ids_type and ids_version from the /etc/ossec-init.conf

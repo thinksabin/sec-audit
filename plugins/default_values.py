@@ -5,6 +5,7 @@ __author__ = 'sabin'
 
 # OS info
 OS_DESCRIPTION = "Ubuntu 14.04.1 LTS"
+OS_DESCRIPTION2 = "Ubuntu 14.04.2 LTS"
 OS_BIT= "x86_64"
 
 # Ossec HIDS

@@ -2,7 +2,6 @@ import ConfigParser
 
 
 def load_config(config_file):
-    try:
         conf = ConfigParser.ConfigParser()
         conf.read (config_file)
 
@@ -25,10 +24,12 @@ def load_config(config_file):
         config_info['ssh.findtime'] = conf.get('ssh', 'findtime')
 
         return config_info
-    except IOError as jailconfigloader:
-        print (" Error has occur in " + "load_config()" + " " + jailconfigloader.strerror)
+        #print (" Error has occur in " + "load_config()" + " " + jailconfigloader.strerror)
 
 #conf = load_config('backup.conf.template')
-conf = load_config('sample_conf_files/sample_jail.conf')
+try:
+    conf = load_config('sample_conf_files/sample_jail.conf')
+except:
+    pass
 #print "printing conf ", conf
 #print "ssh ignore ip", conf.get("ssh.ignoreip")

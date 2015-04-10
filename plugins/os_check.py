@@ -25,7 +25,7 @@ def check_os_description():
 
     else:
 
-        if default_values.OS_DESCRIPTION == osdesc :                              # if os_description match
+        if osdesc == default_values.OS_DESCRIPTION  or  default_values.OS_DESCRIPTION2 :                              # if os_description match
             print "The OS is " + osdesc + ok
 
         else:

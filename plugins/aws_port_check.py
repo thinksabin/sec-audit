@@ -1,9 +1,9 @@
-__author__ = 'bugtraq'
+__author__ = 'Sabin'
 
-import default_values
-import urllib2
 import nmap
+import urllib2
 from conf_loader.server_auditor_conf import conf
+from report import txt_report
 
 
 # standard for the network configuration
@@ -11,9 +11,9 @@ ok = " .......................................[OK]"
 warning = " .......................................[WARNING]"
 
 
-# local_ip_resource = conf.get("network.local_ip_resource")
-# public_ip_resource = conf.get("network.public_ip_resource")
-# private_ip_resource = conf.get("network.private_ip_resource")
+local_ip_resource = conf.get("network.local_ip_resource")
+public_ip_resource = conf.get("network.public_ip_resource")
+private_ip_resource = conf.get("network.private_ip_resource")
 valid_tcp_port_list_lo = conf.get("network.valid_tcp_port_list_lo")
 valid_tcp_port_list_eth0 = conf.get("network.valid_tcp_port_list_eth0")
 valid_tcp_port_list_pub = conf.get("network.valid_tcp_port_list_pub")
@@ -75,24 +75,35 @@ def compare_port_tcp_pub(tcp_port_list):
         #     print 'Port Standard for ' + value + " mismatched " + warning
 
 def scan_local_ip():
-    compare_port_tcp_lo(scan_ip(default_values.AWS_LOCAL_IP))
+    compare_port_tcp_lo(scan_ip(local_ip_resource))
     print("End of scanning Local IP")
     print " "
 
 def scan_private_ip():
-    compare_port_tcp_eth0(scan_ip(get_ip(default_values.AWS_PRIVATE_IP)))
+    compare_port_tcp_eth0(scan_ip(get_ip(private_ip_resource)))
     print("End of scanning Private IP")
     print " "
 
 def scan_public_ip():
-    compare_port_tcp_pub(scan_ip(get_ip(default_values.AWS_PUBLIC_IP)))
+    compare_port_tcp_pub(scan_ip(get_ip(public_ip_resource)))
     print("End of scanning Public IP")
     print " "
 
 def run_port_checker():
+    txt_report.create_txt_file()
     scan_local_ip()
     scan_private_ip()
     scan_public_ip()
     print (" ............. END of the Port Scanning ................")
+
+
+# if __name__ == '__main__':
+
+    # scanLocalIP()
+    # scanPrivateIP()
+    # scanPublicIP()
+
+
+#run_portScanner()
 
 

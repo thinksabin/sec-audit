@@ -4,6 +4,7 @@ __author__ = 'Sabin'
 
 import apt
 from conf_loader import module_conf
+from report import txt_report
 
 
 ok = " .......................................[OK]"
@@ -14,6 +15,7 @@ installed_packages = cache.keys()
 
 
 def check_module(module_name, module_version):
+
     print "............................................................................."
     print 'Checking for ', module_name, " version ", module_version
 
@@ -35,5 +37,8 @@ def check_module(module_name, module_version):
 
 
 def run_module_checker():
+    banner = " ***************checking Installed Modules *************** "
+    txt_report.create_txt_file()
+    print banner
     for k,v in load_conf.iteritems():
         check_module (k, v)

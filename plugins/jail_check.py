@@ -1,10 +1,9 @@
 __author__ = 'sabin'
 
-import default_values
 import os
-from conf_loader.server_auditor_conf import conf
 from conf_loader import jail_conf
-
+from conf_loader.server_auditor_conf import conf
+from report import txt_report
 
 ok = " .......................................[OK]"
 warning = " .......................................[WARNING]"
@@ -22,19 +21,21 @@ s_ssh_maxretry = conf.get("fail2ban.ssh_maxretry")
 s_ssh_bantime = conf.get("fail2ban.ssh_bantime")
 s_ssh_findtime = conf.get("fail2ban.ssh_findtime")
 # end of fail2ban standards
+path_jail_conf  = "/etc/fail2ban/jail.conf"
+path_jail_local = "/etc/fail2ban/jail.local"
 
 ## end of standard
 
 ## checking presence of jail.conf or local.conf
 def file_presence():
     try:
-        if os.path.exists(default_values.JAIL_LOCAL_LOCATION):
+        if os.path.exists(path_jail_local):
             print "Reading /etc/fail2ban/jail.local"
-            conf = jail_conf.load_config(default_values.JAIL_LOCAL_LOCATION)
+            conf = jail_conf.load_config(path_jail_local)
         else:
             print "Reading /etc/fail2ban/jail.conf  Couldn't find file jail.local"
             #conf = jail_confLoader.load_config("sample_jail.conf")
-            conf = jail_conf.load_config(default_values.JAIL_CONF_LOCATION)
+            conf = jail_conf.load_config(path_jail_conf)
 
         return conf
     except IOError as filePresenceError:
@@ -44,7 +45,7 @@ def file_presence():
 def check_fail2ban():
     banner = " ***************checking Fail2ban *************** "
 
-    print "Checking Fail2ban Settings....."
+    print banner
     conf=file_presence()
     # getting values from file
     ssh_ignoreip = conf.get("ssh.ignoreip")
@@ -55,6 +56,8 @@ def check_fail2ban():
     ssh_maxretry = conf.get("ssh.maxretry")
     ssh_bantime = conf.get("ssh.bantime")
     ssh_findtime = conf.get("ssh.findtime")
+    #ssh_ignoreip_list = ['182.93.83.51', '202.52.237.170', '2232323', '21.12.13.33']
+
 
 ##converting string of ignoreip from conf file into list
     ssh_ignoreip_list = ssh_ignoreip.split(",")
@@ -65,6 +68,7 @@ def check_fail2ban():
 ##comparing standard ignore ip list with the list from conf file
 
     different_ssh_ignoreip = set(s_ssh_ignoreip_list).difference(ssh_ignoreip_list)
+    #print " the set is " , different_ssh_ignoreip
 
     if different_ssh_ignoreip == set():
         print "SSH ignore ip list is ", ssh_ignoreip_list , ok
@@ -123,7 +127,10 @@ def check_fail2ban():
         print " SSH findtime is ", ssh_findtime , warning
 
 def run_jail_checker():
+    txt_report.create_txt_file()
     check_fail2ban()
 
+#calling function
+#run_jailChecker()
 
 
